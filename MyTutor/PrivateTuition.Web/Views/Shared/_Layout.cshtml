@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" , shrink-to-fit=no />
+    <title>@ViewData["Title"] - MyTutor.</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="~/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Main CSS File -->
+    <link href="~/assets/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+    <header id="header" class="fixed-top">
+        @await Html.PartialAsync("_Header")
+    </header>
+
+    <main id="main">
+        <section id="events" class="events position-absolute top-20 start-50 translate-middle-x">
+            <div class="container" data-aos="fade-up">
+                <div class="row" data-aos="zoom-in" data-aos-delay="100">
+
+            @if (TempData["AlertMessage"] != null)
+            {
+                AlertMessage alertMessage = JsonConvert.DeserializeObject<AlertMessage>(TempData["AlertMessage"] as String);
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-@alertMessage.AlertType alert-dismissible fade show">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <div class="text-danger">@alertMessage.Title</div>
+                            <hr>
+                            <div>@alertMessage.Message</div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+            </div>
+
+        </section>
+               
+        @RenderBody()
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h3>My Tutor.</h3>
+                        <p>
+                            Barbaros Bulvarı, No:9 Beşiktaş İstanbul<br>
+                            United States <br><br>
+                            <strong>Phone:</strong> +90 545 123 12 34<br>
+                            <strong>Email:</strong> info@mytutor.com<br>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Our Services</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 footer-newsletter">
+                        <h4>Join Our Newsletter</h4>
+                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                        <form action="" method="post">
+                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container d-md-flex py-4">
+
+            <div class="me-md-auto text-center text-md-start">
+                <div class="copyright">
+                    &copy; Copyright <strong><span>MyTutor</span></strong>. All Rights Reserved
+                </div>
+
+            </div>
+            <div class="social-links text-center text-md-right pt-3 pt-md-0">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+
+    <div id="preloader"></div>
+  
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Vendor JS Files -->
+    <script src="~/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/assets/vendor/aos/aos.js"></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // console.log("Calisti");
+
+        var select = document.getElementById("pref-perpage");
+
+        const uri = 'https://localhost:7094/Cities/';
+        var cities = [];
+
+        function getCities() {
+            fetch(uri)
+                .then(response => response.json())
+                .then(function (data) {
+                    //console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.il_adi;
+                        el.value = element.id;
+                        select.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+        getCities();
+
+        select.addEventListener('click', (event) => {
+            var cityId = event.target.value;
+
+            var selectDistrict = document.getElementById("district-select");
+
+            //bu event city değiştiğinde ilçe selectbox'ını temizlemek için yazıldı
+            if (selectDistrict.options.length > 0) {
+                while (selectDistrict.options.length > 0) {
+                    selectDistrict.remove(0);
+                }
+            }
+
+            var url = 'https://localhost:7094/Cities/GetDistrictByCityId/' + cityId;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(function (data) {
+                    console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.ilce_adi;
+                        el.value = element.id;
+                        selectDistrict.appendChild(el);
+
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+
+        });
+
+
+        //category - select
+        var CategorySelect = document.getElementById("category-select");
+        const urlCategory = 'https://localhost:7094/Category/Get/';
+        var categories = [];
+
+        function getCategories() {
+
+            if (CategorySelect.options.length > 0) {
+                while (CategorySelect.options.length > 0) {
+                    CategorySelect.remove(0);
+                }
+            }
+
+
+            fetch(urlCategory)
+                .then(response => response.json())
+                .then(function (data) {
+                    // console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.name;
+                        el.value = element.id;
+                        CategorySelect.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+        getCategories();
+
+        //subject-select
+
+        var SubjectSelect = document.getElementById("subject-select");
+
+        CategorySelect.addEventListener('change', (event) => {
+
+            var categoryValue = event.target.value; //category id degerim
+
+            getSubjects(categoryValue);
+
+        })
+
+
+
+
+        function getSubjects(catId) {
+
+            const urlSubject = 'https://localhost:7094/Category/GetSubject/' + catId;
+            var subjects = [];
+
+
+            if (SubjectSelect.options.length > 0) {
+                while (SubjectSelect.options.length > 0) {
+                    SubjectSelect.remove(0);
+                }
+            }
+
+
+            fetch(urlSubject)
+                .then(response => response.json())
+                .then(function (data) {
+                    console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.Name;
+                        el.value = element.Id;
+                        SubjectSelect.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Script",false)
+
+</body>
+</html>

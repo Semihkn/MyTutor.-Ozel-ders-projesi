@@ -1,0 +1,122 @@
+﻿@model LessonRequestModel
+
+<div class="breadcrumbs" data-aos="fade-in">
+    <div class="container">
+        <h2>Yeni Ders Talebi</h2>
+    </div>
+</div>
+
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+                <div class="card" style="width: 18rem;">
+                   @* @if (Model.ShowCard.Teacher.AvatarUrl != null)
+                    {
+                        <img src="~/images/@Model.ShowCard.Teacher.AvatarUrl">
+                    }
+                    else
+                    {
+                        <img src="~/assets/img/course-details.jpg" class="img-fluid" alt="">
+                        //default pic
+                    }*@
+                    <img src="~/assets/img/course-details.jpg" class="img-fluid" alt="">
+
+                    <div class="card-body">
+                       @*<h5 class="card-title"@Model.ShowCard.Teacher.Name</h5>*@
+                           <h3>Ad Soyad</h3>
+                       
+                      @*  <a href="#" class="btn btn-primary">Go somewhere</a>*@
+                    </div>
+                    <div class="course-info d-flex justify-content-between align-items-center">
+                        <a class="btn btn-danger text-white rounded-circle rounded-1"> 250 TL</a>
+                        @*<p> @Math.Round(Model.ShowCard.LessonPrice) TL</p>*@
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                <h1 class="fst-italic"> İlk dersinizi planlayın</h1>
+                <form asp-action="NewLessonRequest" asp-controller="Student" method="post" role="form">
+
+                    <input type="hidden" id="StudentId" name="StudentId" value="@ViewBag.Student" />
+                    <p>@ViewBag.Student</p>
+
+                    @*<inp ut type="hidden" id="ShowCardId" name="ShowCardId" value="@Model.ShowCard.Id" />
+                    <p>@Model.ShowCard.Id</p>*@
+
+                    <div class="form-group mt-3">
+                        <p class="fst-italic fs-2">Kendinizi hocanıza tanıtın ve neler öğrenmek istediğinizi anlatın (önerilir)</p>
+                        <textarea class="form-control" asp-for="Expectations" id="Expectations" name="Expectations" rows="5"
+                                  placeholder="Hocanıza ne aradığınızdan ve müsait olduğunuz tarihlerden bahsedin...">
+                        </textarea>
+                    </div>
+
+                    <div class="row">
+                        <p class="fst-italic fs-2">
+                            Sizinle iletişim kurabilmek için iletişim bilgileriniz
+                        </p>
+                        <div class="col-md-6 form-group">
+                            <input type="text" asp-for="Address" name="Address" class="form-control" id="Address" placeholder="Adres" required>
+                        </div>
+                        @*<span asp-validation-for="Address" class="text-danger"></span>*@
+
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="tel" asp-for="ContactNumber" class="form-control" name="ContactNumber" id="ContactNumber" placeholder="Telefon Nuamrası" required>
+                        </div>
+                        @*<span asp-validation-for="ContactNumber" class="text-danger"></span>*@
+
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <p class="fst-italic fs-2">Bu Dersi Kimin için Alıyorsunuz?</p>
+                        <div class="form-check">
+                            <input class="form-check-input" value="1" type="radio" name="ForWho" id="ForWho" checked>
+                            <label class="form-check-label" asp-for="ForWho">
+                                Kendim için
+                            </label>
+                        </div>
+                        <span asp-validation-for="ForWho" class="text-danger"></span>
+
+                        <div class="form-check">
+                            <input class="form-check-input" value="0" type="radio" name="ForWho" id="ForWho">
+                            <label class="form-check-label" asp-for="ForWho">
+                                Başkası için
+                            </label>
+                        </div>
+                        <span asp-validation-for="ForWho" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <p class="fst-italic fs-2">İlk ders tarihi</p>
+                        <div class="form-check">
+                            <input class="form-check-input" value="1" type="radio" name="FirstLesson" id="FirstLesson" checked>
+                            <label class="form-check-label" asp-for="FirstLesson">
+                                Bir Hafta içinde
+                            </label>
+                        </div>
+                        <span asp-validation-for="FirstLesson" class="text-danger"></span>
+
+                        <div class="form-check">
+                            <input class="form-check-input" value="0" type="radio" name="FirstLesson" id="FirstLesson">
+                            <label class="form-check-label" asp-for="FirstLesson">
+                                Bir ay içinde
+                            </label>
+                        </div>
+                        <span asp-validation-for="FirstLesson" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-success btn-lg text-white" type="submit"><i class="bi bi-arrow-90deg-right "></i> Ders Talep Et</button>
+
+                    </div>
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

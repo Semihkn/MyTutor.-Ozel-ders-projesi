@@ -1,0 +1,105 @@
+﻿@model RegisterModel
+
+
+<div class="breadcrumbs">
+    <div class="container">
+        <h2>Kayıt Ol</h2>
+    </div>
+</div>
+
+<section id="events" class="events">
+    <div class="container" data-aos="fade-up">
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="FirstName">Ad :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="FirstName" />
+                            </div>
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="LastName">Soyad :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="LastName" />
+                            </div>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="UserName">Kullanıcı Adı :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="UserName" />
+                            </div>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Email">E-posta :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input asp-for="Email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Password">Şifre :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input asp-for="Password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="RePassword">Şifre Onay :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input asp-for="RePassword" />
+                            </div>
+                            <span asp-validation-for="RePassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="IsStudent">Öğrenci Misiniz? :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="checkbox"  asp-for="IsStudent" />
+                            </div>
+                            <span asp-validation-for="IsStudent" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="IsTeacher">Öğretmen Misiniz? :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="checkbox"  asp-for="IsTeacher" />
+                            </div>
+                            <span asp-validation-for="IsTeacher" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-10 offset-2">
+                                <button class="btn btn-success" type="submit">Kayıt Ol</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+            }

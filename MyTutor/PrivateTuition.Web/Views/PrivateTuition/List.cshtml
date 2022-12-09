@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Tüm İlanlar";
+}
+
+@model ShowCardViewModel
+@section Script{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+}
+
+<!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <h2>İlanlar</h2>
+       </div>
+    </div><!-- End Breadcrumbs -->
+
+    <hr />
+
+<section id="courses" class="courses">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+
+             <div class="col-3">
+                 
+                  @await Component.InvokeAsync("Categories")
+                  <partial name="_Search" />
+             </div>
+
+             <div class="col-9">
+
+               
+                        <div class="col">
+                            @await Html.PartialAsync("_AdvancedSearch")
+                        </div>
+                        <hr />
+                        <div class="col">
+                           
+                            @if (Model.ShowCards.Count == 0)
+                            {
+                                <partial name="_NoShowCard" />
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    @foreach (var showCard in Model.ShowCards)
+                                    {
+                                        <partial name="_ShowCard" model="showCard" />
+                                        @* @await Html.PartialAsync("_ShowCard", showCard) *@
+                                    }
+                                </div>
+                            }
+                        </div>
+
+
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+
+                        @for (int i = 0; i < Model.PageInfo.TotalPages(); i++)
+                        {
+
+                            if (string.IsNullOrEmpty(Model.PageInfo.CurrentCategory))
+                            {
+                                <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
+                                    <a class="page-link"
+                               href="/products?page=@(i+1)">@(i + 1)</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
+                                    <a class="page-link"
+                               href="/products/@Model.PageInfo.CurrentCategory?page=@(i+1)">@(i + 1)</a>
+                                </li>
+                            }
+                        }
+                        @* <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">2</a>
+                        </li> *@
+
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
+               
+             </div>          
+        </div>
+    </div>
+</section><!-- End ShowCards Section -->
+
+

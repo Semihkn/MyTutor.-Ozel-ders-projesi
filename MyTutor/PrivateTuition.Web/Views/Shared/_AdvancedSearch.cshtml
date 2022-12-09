@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Advanced Search";
+}
+
+<div class="row">
+    @*
+    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#filter-panel" aria-expanded="false" aria-controls="filter-panel">
+    <span class="glyphicon glyphicon-cog"></span> Advanced Search
+    </button>
+    *@
+    <div class="breadcrumbs bg-warning">
+        <div class="container">
+            <h3>Gelişmiş Arama</h3>
+        </div>
+    </div>
+    <div id="filter-panel" class=" filter-panel bg-black">
+        <div class="panel panel-d">
+            <div class="panel-body">
+                <form class="form-inline row" role="form">
+
+                    <div class="form-group  col-md-2">
+                        <label class="filter-col text-white" style="margin-right:0;" for="pref-perpage">Şehir:</label>
+                        <select id="pref-perpage" class="form-select" name="city">
+                            <option selected="selected" value="">Şehir Seç</option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label class="filter-col text-white" style="margin-right:0;" for="pref-perpage">İlçe:</label>
+                        <select id="district-select" class="form-select" name="district">
+                            <option selected="selected" value="">İlçe Seç</option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label class="filter-col text-white" style="margin-right:0;" for="pref-orderby">Kategori :</label>
+                        <select id="category-select" class="form-select" name="category">
+                            <option selected="selected" value="">Kategori Seç</option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="filter-col text-white" style="margin-right:0;" for="pref-orderby">Ders :</label>
+                        <select id="subject-select" class="form-select" name="subject">
+                            <option selected="selected" value="">Ders Seç</option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2 col-md-2 mx-auto">
+                        <button type="submit" class="btn btn-secondary  btn-lg">
+                            <span class="glyphicon glyphicon-record"></span> Ara
+                        </button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

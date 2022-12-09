@@ -1,0 +1,127 @@
+﻿@model List<LessonRequest>
+
+<div class="breadcrumbs" data-aos="fade-in">
+    <div class="container">
+        <h2>Öğrencilerden Ders Taleplerim</h2>
+    </div>
+</div>
+
+
+<section id="events" class="events">
+    <div class="container">
+        <div class="row">
+
+            @if (Model.Count > 0)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Avatar</th>
+                            <th scope="col">Öğrenci Adı</th>
+                            <th scope="col">Ders adı</th>
+                            <th scope="col">İlan Başlığı</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lessonRequest in Model)
+                        {
+                            <tr>
+                                <td>
+                                @if (lessonRequest.Student.AvatarUrl==null)
+                                {
+                                    <img src="~/assets/img/students/student-1.jpg" width="50" />
+                                }
+                                else
+                                {
+                                 <img src="~/assets/img/students/@lessonRequest.Student.AvatarUrl" width="50" />                                      
+                                }                                  
+                                </td>
+                                
+                                <td>@lessonRequest.Student.Name</td>
+                                <td>@lessonRequest.ShowCard.Subject.Name</td>
+                                <td>@lessonRequest.ShowCard.Title</td>
+
+                                <td>
+                                    @if (!lessonRequest.IsApproved)
+                                    {
+                                        <a asp-controller="Teacher"
+                                           asp-action="LessonRequestApprove"
+                                           asp-route-id=@lessonRequest.Id
+                                           class="btn btn-sm btn-warning">Kabul et</a>
+
+                                        <!-- Button trigger Modal -->
+                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#ApproveModal_@lessonRequest.Id">
+                                            Sil
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="ApproveModal_@lessonRequest.Id" tabindex="-1" aria-labelledby="ApproveModalLabel_@lessonRequest.Id" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title fs-5" id="ApproveModalLabel_@lessonRequest.Id">Uyarı!</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="text-danger">Bu Talep Onaylanacak!</p>
+                                                        <p>Emin misin?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                        <a asp-controller="Teacher"
+                                                           asp-action="LessonRequestDecline"
+                                                           asp-route-id=@lessonRequest.Id
+                                                           class="btn btn-danger">Reddet</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a asp-controller="Teacher"
+                                           asp-action="LessonRequestDelete"
+                                           asp-route-id=@lessonRequest.Id
+                                           class="btn btn-sm btn-warning">Arşive Kaldır</a>
+                                    }
+                                    else
+                                    {                  
+                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal_@lessonRequest.Id">
+                                            Kalıcı Olarak Sil
+                                        </button>
+                                        
+                                        <div class="modal fade" id="DeleteModal_@lessonRequest.Id" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="DeleteModalLabel">Uyarı!</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="text-danger">Bu Ders Silinecek!</p>
+                                                        <p>Emin misin?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                        <a asp-controller="Teacher"
+                                                           asp-action="LessonRequestPermanentlyDelete"
+                                                           asp-route-id=@lessonRequest.Id
+                                                           class="btn btn-danger">Arşivden Sil</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @await Html.PartialAsync("_NoRecord")
+                ;
+            }
+        </div>
+    </div>
+</section>

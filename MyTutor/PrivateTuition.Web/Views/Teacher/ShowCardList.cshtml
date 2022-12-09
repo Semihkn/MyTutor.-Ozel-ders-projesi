@@ -1,0 +1,150 @@
+﻿@model List<ShowCard>
+
+
+<div class="breadcrumbs">
+    <div class="container">
+        <h2>İlanlarım</h2>
+    </div>
+</div>
+
+<section id="events" class="events">
+    <div class="container">
+        <div class="row">
+            <div>
+
+                
+                    <a class="btn btn-sm btn-success" asp-controller="Teacher" asp-action="ShowCardCreate">İlan Oluştur</a>
+                    @if (Model.Count > 0)
+                    {
+                        @if (ViewBag.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-danger" asp-controller="Teacher" asp-action="ShowCardList" asp-route-isDeleted="false">Yayındaki İlanları Göster</a>
+                        }
+                        else
+                        {
+                        <a class="btn btn-sm btn-danger" asp-controller="Teacher" asp-action="ShowCardList" asp-route-isDeleted="true">Askıdaki İlanları Göster</a>
+                        }
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-danger" asp-controller="Teacher" asp-action="ShowCardList" asp-route-isDeleted="false">Yayındaki İlanları Göster</a>
+                        <a class="btn btn-sm btn-danger" asp-controller="Teacher" asp-action="ShowCardList" asp-route-isDeleted="true">Askıdaki İlanları Göster</a>
+                    }
+
+
+
+               
+                <hr />
+                @if (Model.Count > 0)
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Id</th>
+                                <th scope="col">Başlık</th>
+                                <th scope="col">Ücret</th>
+                                <th scope="col">Ders Hakkında</th>
+
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var showCard in Model)
+                            {
+                                <tr>
+                                    <td>@showCard.Id</td>
+                                    <td>@showCard.Title </td>
+                                    <td>@showCard.LessonPrice TL</td>
+                                    <td>@showCard.Description</td>
+
+
+                                    <td>
+                                        @if (!showCard.IsDeleted)
+                                        {
+                                            <a asp-controller="Teacher"
+                                               asp-action="ShowCardEdit"
+                                               asp-route-id=@showCard.Id
+                                               class="btn btn-sm btn-warning">Düzenle</a>
+                                                        <!-- Button trigger DeleteModal -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal_@showCard.Id">
+                                                Sil
+                                            </button>
+
+                                            <!-- DeleteModal -->
+                                            <div class="modal fade" id="DeleteModal_@showCard.Id" tabindex="-1" aria-labelledby="DeleteModalLabel_@showCard.Id" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title fs-5" id="DeleteModalLabel_@showCard.Id">Uyarı!</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-danger">Bu İlan Silinecek!!</p>
+                                                            <p>Emin misin?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                            <a asp-controller="Teacher"
+                                                               asp-action="ShowCardDelete"
+                                                               asp-route-id=@showCard.Id
+                                                               class="btn btn-danger">Evet</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Teacher"
+                                               asp-action="ShowCardDelete"
+                                               asp-route-id=@showCard.Id
+                                   class="btn btn-sm btn-warning">Tekrar Yayına Al!</a>
+
+                                            <!-- Button trigger DeleteModal -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal_@showCard.Id">
+                                                Kalıcı Olarak Sil
+                                            </button>
+
+                                            <!-- DeleteModal -->
+                                            <div class="modal fade" id="DeleteModal_@showCard.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-danger">Bu İlan Silinecek!</p>
+                                                            <p>Emin misin?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                            <a asp-controller="Teacher"
+                                                   asp-action="ShowCardDeletePermanently"
+                                                   asp-route-id=@showCard.Id
+                                                   class="btn btn-danger">Evet</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                }
+                else
+                {
+
+                    @await Html.PartialAsync("_NoShowCard")
+                    ;
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

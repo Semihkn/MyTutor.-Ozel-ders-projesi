@@ -1,0 +1,17 @@
+﻿@model List<Category>
+
+<div class="list-group">
+    <a class='list-group-item list-group-item-action  @(ViewBag.SelectedCategory==null ? "active" : "")'
+       asp-controller="PrivateTuition" asp-action="List" asp-route-category="">Tüm Kategoriler</a>
+    @foreach (var category in Model)
+    {
+            <a class="list-group-item list-group-item-action @(ViewBag.SelectedCategory==category.Url ? "active" : "") "
+       asp-controller="PrivateTuition" asp-action="ListByCategory" asp-route-category=@category.Url>@category.Name</a>
+               
+
+      @*  <div class="collapse" id="collapseExample">
+            <a class="list-group-item" 
+                    >deneme</a>
+        </div>*@
+    }
+</div>

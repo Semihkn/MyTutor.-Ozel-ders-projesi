@@ -1,0 +1,108 @@
+﻿@model ShowCardModel
+
+
+<div class="breadcrumbs">
+    <div class="container">
+        <h2>İlanı Düzenle</h2>
+    </div>
+</div>
+
+<section id="events" class="events">
+    <div class="container" data-aos="fade-up">
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+
+            <form asp-controller="Teacher" asp-action="ShowCardEdit"  enctype="multipart/form-data">
+                <input type="hidden" name="ShowCardId" value=@Model.Id />
+                <div class="row">
+                    <div class="col-md-8">
+                        @*Buraya Showcard bilgileri gelecek*@
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Title"></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="Title" />
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Description"></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="Description" />
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="LessonPrice"></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="LessonPrice" />
+
+                            </div>
+                            <span asp-validation-for="LessonPrice" class="text-danger"></span>
+
+                        </div>
+
+                        @* <div class="form-group row mb-2">
+                        <div class="col-md-2">
+                        <label asp-for="ImageUrl">Image</label>
+                        </div>
+
+
+                        <div class="col-md-10">
+                        <img id="imgViewer" src="~/images/@Model.ImageUrl" />
+                        <input class="d-none" type="file" name="file" id="formFile" accept="image/" />
+                        <div>
+                        <label class="btn btn-light" for="formFile">Upload Image</label>
+                        <label id="imageUrl">@Model.ImageUrl</label>
+                        </div>
+                        </div>
+                        <span class="text-danger">@ViewBag.ImageErrorMessage</span>
+
+                        </div>*@
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-10 offset-2">
+                                <button class="btn btn-success" type="submit">Değişiklikleri Kaydet</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @*Buraya Category listesi, IsHome, IsApproved gelecek*@
+
+
+                        @foreach (var category in (List<Category>)ViewBag.Categories)
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox"
+                                   class="form-check-input"
+                                   value="@category.Id"
+                                   name="categoryIds"
+                                   @if (Model.SelectedCategory!=null)
+                                   {
+                                   @(Model.SelectedCategory.Id==category.Id ? "checked" : "")
+                                   } />
+                                <label class="custom-control-label">@category.Name</label>
+                            </div>
+                        }
+                        <span class="text-danger">@ViewBag.CategoryErrorMessage</span>
+                        <hr />
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="form-check-input" asp-for="IsDeleted" />
+                            <label class="custom-control-label">Is Approved?</label>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

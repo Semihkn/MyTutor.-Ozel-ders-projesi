@@ -1,0 +1,141 @@
+﻿@model List<Subject>
+
+<div class="breadcrumbs">
+    <div class="container">
+        <h2>Ders Listesi</h2>
+    </div>
+</div>
+
+<section id="events" class="events">
+    <div class="container">
+        <div class="row">
+            <div>
+
+                <a class="btn btn-sm btn-primary" asp-controller="Admin" asp-action="SubjectCreate">Ders Ekle </a>
+                @if (Model.Count > 0)
+                {
+                    @if (ViewBag.IsDeleted)
+                    {
+                        <a class="btn btn-sm btn-danger" asp-controller="Admin" asp-action="SubjectList" asp-route-isDeleted="false">Yasyındaki Dersleri Göster</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-danger" asp-controller="Admin" asp-action="SubjectList" asp-route-isDeleted="true">Askıdaki Dersleri Göster</a>
+                    }
+                }
+                else
+                {
+
+                    <a class="btn btn-sm btn-danger" asp-controller="Admin" asp-action="SubjectList" asp-route-isDeleted="false">Yayındaki Dersleri Göster</a>
+
+
+                    <a class="btn btn-sm btn-danger" asp-controller="Admin" asp-action="SubjectList" asp-route-isDeleted="true">Askıdaki Dersleri Göster</a>
+
+                }
+
+                <hr />
+                @if (Model.Count > 0)
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Ders Adı</th>
+                                @*<th scope="col">Kategori Adı</th>*@
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var subject in Model)
+                            {
+                                <tr>
+
+                                    <td>@subject.Id</td>
+                                    <td>@subject.Name</td>
+                                    @*<td>@subject.SubjectCategories.Select(sc=>sc.Category.Name).FirstOrDefault()</td>*@
+                                    <td>
+                                        @if (!subject.IsDeleted)
+                                        {
+                                            <a asp-controller="Admin"
+                                               asp-action="SubjectEdit"
+                                               asp-route-id=@subject.Id
+                                               class="btn btn-sm btn-warning">Düzenle</a>
+
+                                            <!-- Button trigger DeleteModal -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal_@subject.Id">
+                                                Sil
+                                            </button>
+
+                                            <!-- DeleteModal -->
+                                            <div class="modal fade" id="DeleteModal_@subject.Id" tabindex="-1" aria-labelledby="DeleteModalLabel_@subject.Id" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title fs-5" id="DeleteModalLabel_@subject.Id">Uyarı!</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-danger">Bu Ders Silinecek!</p>
+                                                            <p>Emin misin?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                            <a asp-controller="Admin"
+                                                               asp-action="SubjectDelete"
+                                                               asp-route-id=@subject.Id
+                                                               class="btn btn-danger">Evet</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Admin"
+                                               asp-action="SubjectDelete"
+                                               asp-route-id=@subject.Id
+                                                 class="btn btn-sm btn-warning">Tekrar Yayına Al</a>
+                                            <!-- Button trigger DeleteModal -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal_@subject.Id">
+                                                Kalıcı Olarak Sil
+                                            </button>
+
+                                            <!-- DeleteModal -->
+                                            <div class="modal fade" id="DeleteModal_@subject.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Uyarı!</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-danger">Bu Ders Silinecek!</p>
+                                                            <p>Emin misin?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                            <a asp-controller="Admin"
+                                                   asp-action="SubjectDeletePermanently"
+                                                   asp-route-id=@subject.Id
+                                                   class="btn btn-danger">Evet</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    @await Html.PartialAsync("_NoRecord")
+                    ;
+                }            
+        </div>
+        </div>
+    </div>
+</section>

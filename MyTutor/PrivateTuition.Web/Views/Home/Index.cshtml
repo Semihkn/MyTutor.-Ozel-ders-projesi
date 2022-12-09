@@ -1,0 +1,236 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+@model List<ShowCard>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex justify-content-center align-items-center">
+    <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
+        <h1>Learning Today,<br>Leading Tomorrow</h1>
+        <h2>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia </h2>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="PrivateTuition" asp-action="List">Get Started</a>
+
+        }
+        else
+        {
+            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="Account" asp-action="Register">Get Started</a>
+        }
+       
+    </div>
+</section><!-- End Hero -->
+
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+                <img src="assets/img/about.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <p class="fst-italic">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                    magna aliqua.
+                </p>
+                <ul>
+                    <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                    <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                    <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                </ul>
+                <p>
+                    Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
+
+<section id="counts" class="counts section-bg">
+      <div class="container">
+
+        <div class="row counters">
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Students</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Courses</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Events</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Trainers</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+<section id="why-us" class="why-us">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="content">
+                    <h3>Why Choose Tutor?</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                        Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+                    </p>
+                    <div class="text-center">
+                        <a href="about.html" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-boxes d-flex flex-column justify-content-center">
+                    <div class="row">
+                        <div class="col-xl-4 d-flex align-items-stretch">
+                            <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-receipt"></i>
+                                <h4>Corporis voluptates sit</h4>
+                                <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 d-flex align-items-stretch">
+                            <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-cube-alt"></i>
+                                <h4>Ullamco laboris ladore pan</h4>
+                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 d-flex align-items-stretch">
+                            <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-images"></i>
+                                <h4>Labore consequatur</h4>
+                                <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End .content-->
+            </div>
+        </div>
+
+    </div>
+</section><!-- End Why Us Section -->
+
+<!-- ======= Kategories Section ======= -->
+<section id="features" class="features">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-lg-3 col-md-4">
+                <div class="icon-box">
+                    <i class="ri-store-line" style="color: #ffbb2c;"></i>
+                    <h3><a class="text-decoration-none" href="">Yazılım</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
+                    <h3><a class="text-decoration-none" href="">Fizik</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
+                    <h3><a class="text-decoration-none" href="https://localhost:7094/showCards/subjects/1lise">Lise</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+                <div class="icon-box">
+                    <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
+                    <h3><a class ="text-decoration-none" href="">Matematik</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-database-2-line" style="color: #47aeff;"></i>
+                    <h3><a class="text-decoration-none" href="">İlköğretim</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
+                    <h3><a class="text-decoration-none" href="">Finans</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
+                    <h3><a class="text-decoration-none" href="">Tenis</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
+                    <h3><a class="text-decoration-none" href="">İstatistik</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-anchor-line" style="color: #b2904f;"></i>
+                    <h3><a class="text-decoration-none" href="" >Keman</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-disc-line" style="color: #b20969;"></i>
+                    <h3><a class="text-decoration-none" href="">Piyano</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="ri-base-station-line" style="color: #ff5828;"></i>
+                    <h3><a class="text-decoration-none" href="">Radyo ve Televizyon</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 ">
+                <div class="icon-box">
+                    <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
+                    <h3><a class="text-decoration-none" href=""></a>İngilizce</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End Features Section -->
+
+<!-- ======= Popular Showcards Section ======= -->
+<section id="popular-courses" class="courses">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>İlanlar</h2>
+            <p>Popülar İlanlar</p>
+        </div>
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">                            
+           <div class="row">
+               @foreach (var showCard in Model)
+               {
+                    @if (showCard.Teacher.RatingPoint >= 0 ) // scale for popularity
+                    {
+                        @await Html.PartialAsync("_ShowCard", showCard)
+                    }
+                  
+               }
+           </div>
+                        
+        </div>
+    </div>
+</section><!-- End Popular ShowCards Section -->
+

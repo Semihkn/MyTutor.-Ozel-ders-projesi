@@ -1,0 +1,363 @@
+﻿@model ShowCardModel
+
+<div class="breadcrumbs">
+    <div class="container">
+        <h2>İlan Oluştur</h2>
+    </div>
+</div>
+
+<section id="events" class="events">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+
+            <form asp-controller="Teacher" asp-action="ShowCardCreate" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input id="frmTeacherID" type="hidden" value="@ViewBag.Teacher.Id" />
+                        <input id="frmTeacherName" type="hidden" value="@ViewBag.Teacher.Name" />
+
+                        @*Buraya Showcard bilgileri gelecek*@
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Title"> İlan Başlığı</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input id="frmTitle" type="text" asp-for="Title" />
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="Description">Ders Hakkında :</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input id="frmDescription" type="text" asp-for="Description" />
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label asp-for="LessonPrice">Ücret</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input id="frmPrice" type="text" asp-for="LessonPrice" />
+                            </div>
+                            <span asp-validation-for="LessonPrice" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                @*<label asp-for="CityId">Şehir :</label>*@
+                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">Şehir :</label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <select id="frmCity" class="form-control">
+                                    <option selected="selected" value="All">Şehir Seçiniz</option>
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-2">
+                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">İlçe :</label>
+                            </div>
+                            <div class="col-md-3">
+
+                                <select id="frmDistrict" class="form-control">
+                                    <option selected="selected" value="All">İlçe Seçiniz</option>
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row ">
+                            <div class="col-md-10 offset-2">
+                                <button id="btnSubmit" class="btn btn-success" type="button">İlanı Kaydet</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-4">
+                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">Kategori :</label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <select id="cat-select" class="form-control">
+                                    <option selected="selected" value="All">Kategori Seçiniz</option>
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-4">
+                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">Ders :</label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <select id="sub-select" class="form-control">
+                                    <option selected="selected" value="All">Ders Seçiniz</option>
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-2">
+                            <div class="col-md-4">
+                                <label class="filter-col" style="margin-right:0;" for="pref-orderby">Ders yeri :</label>
+                            </div>
+                            <div class="col-md-8">
+
+                                <select id="work-select" class="form-control">
+                                    <option selected="selected" value="All">Ders Seçiniz</option>
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <span class="text-danger">@ViewBag.CategoryErrorMessage</span>
+                        <hr />
+                        <div class="form-check form-switch">
+                            <input id="isDeleteId" type="checkbox" class="form-check-input" asp-for="IsDeleted" />
+                            <label class="form-check-label">Aktif olsun mu?</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        var cityLoad = document.getElementById("frmCity");
+        function getCities() {
+            var uri2 = 'https://localhost:7094/Cities/';
+
+            fetch(uri2)
+                .then(response => response.json())
+                .then(function (data) {
+                    //console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.il_adi;
+                        el.value = element.id;
+                        cityLoad.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+        getCities();
+
+        cityLoad.addEventListener('click', (event) => {
+            var cityId2 = event.target.value;
+
+            var selectDistrict2 = document.getElementById("frmDistrict");
+
+            //bu event city değiştiğinde ilçe selectbox'ını temizlemek için yazıldı
+            if (selectDistrict2.options.length > 0) {
+                while (selectDistrict2.options.length > 0) {
+                    selectDistrict2.remove(0);
+                }
+            }
+
+            var url = 'https://localhost:7094/Cities/GetDistrictByCityId/' + cityId2;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(function (data) {
+                    console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.ilce_adi;
+                        el.value = element.id;
+                        selectDistrict2.appendChild(el);
+
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+
+        });
+
+
+        var CategorySelect2 = document.getElementById("cat-select");
+        const urlCategory2 = 'https://localhost:7094/Category/Get/';
+
+
+        function getCategories2() {
+
+            if (CategorySelect2.options.length > 0) {
+                while (CategorySelect2.options.length > 0) {
+                    CategorySelect2.remove(0);
+                }
+            }
+
+
+            fetch(urlCategory2)
+                .then(response => response.json())
+                .then(function (data) {
+                    // console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.name;
+                        el.value = element.id;
+                        CategorySelect2.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+        getCategories2();
+
+        //subject-select
+
+        var SubjectSelect2 = document.getElementById("sub-select");
+
+        CategorySelect2.addEventListener('change', (event) => {
+
+            var categoryValue = event.target.value; //category id degerim
+
+            getSubjects2(categoryValue);
+
+        })
+
+        function getSubjects2(catId) {
+
+            const urlSubject = 'https://localhost:7094/Category/GetSubject/' + catId;
+
+            if (SubjectSelect2.options.length > 0) {
+                while (SubjectSelect2.options.length > 0) {
+                    SubjectSelect2.remove(0);
+                }
+            }
+
+
+            fetch(urlSubject)
+                .then(response => response.json())
+                .then(function (data) {
+                    console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element.Name;
+                        el.value = element.Id;
+                        SubjectSelect2.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+
+
+        var workSelect = document.getElementById("work-select");
+        const urlWork = 'https://localhost:7094/Category/GetWorkMethod/';
+        function getWork() {
+
+            if (workSelect.options.length > 0) {
+                while (workSelect.options.length > 0) {
+                    workSelect.remove(0);
+                }
+            }
+
+
+            fetch(urlWork)
+                .then(response => response.json())
+                .then(function (data) {
+                    console.log(data);
+                    data.forEach((element, index) => {
+                        var el = document.createElement("option");
+                        el.textContent = element;
+                        el.value = element;
+                        workSelect.appendChild(el);
+                    });
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        }
+        getWork();
+
+        var submitButton = document.getElementById("btnSubmit");
+
+        submitButton.addEventListener('click', (event) => {
+            var title = document.getElementById("frmTitle");
+            var titleValue = title.value;
+
+            var desription = document.getElementById("frmDescription");
+            var desriptionValue = desription.value;
+
+            var price = document.getElementById("frmPrice");
+            var priceValue = price.value;
+
+            var url = "";
+
+            var category = document.getElementById("cat-select");
+            var categoryValue = category.value;
+
+            var subject = document.getElementById("sub-select");
+            var subjectValue = subject.value;
+
+            var work = document.getElementById("work-select");
+            var workValue = work.value;
+
+            var nameValue = title.value;
+
+            var active = document.getElementById("isDeleteId");
+            var activeValue = active.value;
+
+            var cityValue = cityLoad.value;
+
+            var teacherId = document.getElementById("frmTeacherID");
+            var teacherIdValue = teacherId.value;
+
+            var teacherName = document.getElementById("frmTeacherName");
+            var teacherNameValue = teacherName.value;
+
+            let data ={
+                    Id: 0,
+                    Title: titleValue,
+                LessonPrice: parseInt(priceValue),
+                    Description: desriptionValue,
+                    ImageUrl: "",
+                IsActivated: (activeValue === 'true'),
+                    WorkMethods: workValue,
+                SubjectId: parseInt(subjectValue),
+                CategoryId: parseInt(categoryValue),
+                CityId: parseInt(cityValue),
+                TeacherId: parseInt(teacherIdValue),
+                    SelectedCategory: "",
+                    SelectedSubject: "",
+                    SelectedCity:"",
+                    SelectedDistrict:"",
+                    
+
+             };
+
+            fetch("https://localhost:7094/ShowCardCreate/", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(res => {
+                console.log("Request complete! response:", res);
+                window.location = 'https://localhost:7094/ShowCardList';
+                   
+            });
+           
+            console.log("Form değerleri : ", titleValue, desriptionValue, priceValue, categoryValue, subjectValue, workValue, nameValue, activeValue, cityValue, teacherIdValue, teacherNameValue);
+        });
+
+    </script>
+}
+

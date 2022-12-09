@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Öğretmenler";
+}
+
+@model TeacherCardViewModel
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <h2>Öğretmenler</h2>
+        <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p>
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Trainers Section ======= -->
+    <section id="trainers" class="trainers">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row" data-aos="zoom-in" data-aos-delay="100">
+                @if (Model.Teachers.Count == 0)
+                    {
+                        <partial name="_NoShowCard" />
+                }
+                else
+                {
+                       @foreach (var teacher in Model.Teachers)
+                {
+                    <partial name="_TeacherCard" model="teacher" />
+                    @* @await Html.PartialAsync("_ShowCard", showCard) *@
+                }  
+                }
+               
+
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+
+                        @for (int i = 0; i < Model.PageInfo.TotalPages(); i++)
+                        {
+
+                            if (string.IsNullOrEmpty(Model.PageInfo.CurrentCategory))
+                            {
+                                <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
+                                    <a class="page-link"
+                               href="/products?page=@(i+1)">@(i + 1)</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
+                                    <a class="page-link"
+                               href="/products/@Model.PageInfo.CurrentCategory?page=@(i+1)">@(i + 1)</a>
+                                </li>
+                            }
+                        }
+                        
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section><!-- End Trainers Section -->

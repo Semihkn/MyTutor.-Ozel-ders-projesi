@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Arama Sonucu";
+}
+
+@model List<ShowCard>
+@section Script{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+}
+
+<div class="breadcrumbs">
+      <div class="container">
+       <h2>Arama Sonucu</h2>
+      </div>
+</div>
+
+<section id="courses" class="courses">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+
+            <div class="col-3">
+                @* Categories gelecek *@
+                @await Component.InvokeAsync("Categories")
+                <partial name="_Search" />
+            </div>
+
+            <div class="col-9">
+
+                <div class="container">
+                    <div class="row row-cols-1">
+                        <div class="col">
+                            @await Html.PartialAsync("_AdvancedSearch")
+                        </div>
+                        <hr />
+                        <div class="col">
+                            @* Ana sayfa sc gelecek *@
+                            @if (Model.Count == 0)
+                            {
+                                <partial name="_NoShowCard" />
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    @foreach (var showCard in Model)
+                                    {
+                                        <partial name="_ShowCard" model="showCard" />
+                                        @* @await Html.PartialAsync("_ShowCard", showCard) *@
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
