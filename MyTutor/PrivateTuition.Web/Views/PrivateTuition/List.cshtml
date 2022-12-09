@@ -8,49 +8,53 @@
 }
 
 <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs">
-      <div class="container">
+<div class="breadcrumbs">
+    <div class="container">
         <h2>İlanlar</h2>
-       </div>
-    </div><!-- End Breadcrumbs -->
+    </div>
+</div><!-- End Breadcrumbs -->
 
-    <hr />
+<hr />
 
 <section id="courses" class="courses">
     <div class="container" data-aos="fade-up">
 
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
 
-             <div class="col-3">
-                 
-                  @await Component.InvokeAsync("Categories")
-                  <partial name="_Search" />
-             </div>
+            <div class="col-3">
 
-             <div class="col-9">
+                @await Component.InvokeAsync("Categories")
+                <partial name="_Search" />
+            </div>
 
-               
-                        <div class="col">
-                            @await Html.PartialAsync("_AdvancedSearch")
-                        </div>
-                        <hr />
-                        <div class="col">
-                           
-                            @if (Model.ShowCards.Count == 0)
+            <div class="col-9">
+
+
+                <div class="col">
+                    @await Html.PartialAsync("_AdvancedSearch")
+                </div>
+                <hr />
+                <div class="col" data-aos="zoom-in" data-aos-delay="100">
+
+                    @if (Model.ShowCards.Count == 0)
+                    {
+                        <partial name="_NoShowCard" />
+                    }
+                    else
+                    {
+                        <div class="row  row-cols-lg-3 g-2 g-lg-5">
+                            @foreach (var showCard in Model.ShowCards)
                             {
-                                <partial name="_NoShowCard" />
-                            }
-                            else
-                            {
-                                <div class="row">
-                                    @foreach (var showCard in Model.ShowCards)
-                                    {
-                                        <partial name="_ShowCard" model="showCard" />
-                                        @* @await Html.PartialAsync("_ShowCard", showCard) *@
-                                    }
+                                <div class="col-md-3">
+
+                                    @*<partial name="_ShowCard" model="showCard" />*@
+                                     @await Html.PartialAsync("_ShowCard", showCard) 
                                 </div>
+
                             }
                         </div>
+                    }
+                </div>
 
 
                 <nav>
@@ -66,14 +70,14 @@
                             {
                                 <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
                                     <a class="page-link"
-                               href="/products?page=@(i+1)">@(i + 1)</a>
+                               href="/showCards?page=@(i+1)">@(i + 1)</a>
                                 </li>
                             }
                             else
                             {
                                 <li class='page-item @(Model.PageInfo.CurrentPage==i+1 ? "active" : "")'>
                                     <a class="page-link"
-                               href="/products/@Model.PageInfo.CurrentCategory?page=@(i+1)">@(i + 1)</a>
+                               href="/showCards/@Model.PageInfo.CurrentCategory?page=@(i+1)">@(i + 1)</a>
                                 </li>
                             }
                         }
@@ -87,10 +91,8 @@
                     </ul>
                 </nav>
 
-               
-             </div>          
+
+            </div>
         </div>
     </div>
 </section><!-- End ShowCards Section -->
-
-

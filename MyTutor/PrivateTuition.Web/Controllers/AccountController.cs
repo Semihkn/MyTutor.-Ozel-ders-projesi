@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.DependencyResolver;
 using PrivateTuition.Business.Abstract;
@@ -199,6 +200,26 @@ namespace PrivateTuition.Web.Controllers
                 });
             }
             return View();
+        }
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
+                if (result.Succeeded)
+                {
+                    return Redirect("~/");
+                }
+            }
+            return View(changePassword);
         }
 
     }

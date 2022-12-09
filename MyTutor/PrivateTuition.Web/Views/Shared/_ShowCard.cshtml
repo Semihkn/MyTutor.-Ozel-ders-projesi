@@ -3,7 +3,7 @@
 <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0 ">
     <div class="course-item border-dark">
         <img src="~/assets/img/course-1.jpg" class="img-fluid" alt="...">
-        <div class="course-content">
+        <div class="course-content" style="height: 400px;">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4>@Model.Subject.Name</h4>
                 <p class="price">@Math.Round(Model.LessonPrice) TL</p>
@@ -11,7 +11,7 @@
 
             <h3><a class="text-decoration-none" asp-controller="PrivateTuition" asp-action="Details" asp-route-url=@Model.Url>@Model.Title</a></h3>
             <div>@Model.Description</div>
-            <div class="trainer d-flex justify-content-between align-items-center">
+            <div class="trainer d-flex justify-content-between align-items-center ">
                 <div class="trainer-profile d-flex align-items-center">
                     <img src="~/assets/img/trainers/trainer-1.jpg" class="img-fluid" alt="">
                     <span>@Model.Teacher.Name</span>

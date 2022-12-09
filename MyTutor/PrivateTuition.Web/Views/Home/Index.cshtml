@@ -1,8 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Anasayfa";
 }
-
+@*@inject UserManager<MyIdentityUser> UserManager*@
 @model List<ShowCard>
+
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex justify-content-center align-items-center">
     <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
@@ -10,17 +11,18 @@
         <h2>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia </h2>
         @if (User.Identity.IsAuthenticated)
         {
-            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="PrivateTuition" asp-action="List">Get Started</a>
+            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="PrivateTuition" asp-action="List">Öğretmeninizi bulun!</a>
 
         }
         else
         {
-            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="Account" asp-action="Register">Get Started</a>
+            <a class="btn-get-started text-decoration-none" asp-area="" asp-controller="Account" asp-action="Login">Öğretmeninizi bulun!</a>
         }
-       
-    </div>
-</section><!-- End Hero -->
 
+    </div>
+</section>
+<!-- End Hero -->
+<!-- About Section -->
 <section id="about" class="about">
     <div class="container" data-aos="fade-up">
 
@@ -29,18 +31,21 @@
                 <img src="assets/img/about.jpg" class="img-fluid" alt="">
             </div>
             <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
-                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <h3>
+                    Öğrenmek hiç bu kadar
+                    kolay olmadı
+                </h3>
                 <p class="fst-italic">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
                     magna aliqua.
                 </p>
                 <ul>
-                    <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-                    <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-                    <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                    <li><i class="bi bi-check-circle"></i> <strong>1.Arama yapın</strong> Profilleri özgürce inceleyin ve kriterlerinize uyan mükemmel öğretmeninizle iletişime geçin (fiyatlar, diplomalar, yorumlar, evde veya online ders)</li>
+                    <li><i class="bi bi-check-circle"></i> <strong>2.İletişime geçin</strong> Şimşek gibi hızlı öğretmenler size birkaç saat içerisinde cevap verir! İdeal öğretmeninizi bulamazsanız ekibimiz size yardımcı olur.</li>
+                    <li><i class="bi bi-check-circle"></i> <strong>3.Planlayın</strong> Öğretmeniniz veya eğitmeninizle iletişim bilgileri üzerinden konuşup derslerinizi özgürce planlayın.</li>
                 </ul>
                 <p>
-                    Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                    Öğrenci ve öğretmen,mükemmel uyum
                 </p>
 
             </div>
@@ -48,50 +53,73 @@
 
     </div>
 </section><!-- End About Section -->
-
+<!-- Count Section(Students,Showcards,Teachers etc..) -->
 <section id="counts" class="counts section-bg">
-      <div class="container">
+    <div class="container">
 
         <div class="row counters">
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Students</p>
-          </div>
+            <div class="col-lg-3 col-6 text-center">
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Courses</p>
-          </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Events</p>
-          </div>
+                <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Öğrenciler</p>
+            </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Trainers</p>
-          </div>
+            <div class="col-lg-3 col-6 text-center">
+                <span data-purecounter-start="0" data-purecounter-end="@Model.Count" data-purecounter-duration="1" class="purecounter"></span>
+                <p>İlanlar</p>
+            </div>
+
+            <div class="col-lg-3 col-6 text-center">
+                @{
+                    int totalLEsson = 0;
+                }
+                @foreach (var showcard in Model)
+                {
+                    totalLEsson += showcard.Teacher.TotalLesson;
+                }
+                <span data-purecounter-start="0" data-purecounter-end="@totalLEsson" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Tamamlanan Dersler</p>
+            </div>
+
+            <div class="col-lg-3 col-6 text-center">
+               @* @{
+                    int totalTeacher = 0;
+                }
+                @foreach (var user in UserManager.Users)
+                {
+                   
+                    if (User.IsInRole("Teacher"))
+                    {
+                        totalTeacher++;
+                    }
+
+                }*@
+
+
+                <span data-purecounter-start="0" data-purecounter-end="55" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Öğretmenler</p>
+            </div>
 
         </div>
 
-      </div>
-    </section><!-- End Counts Section -->
-
+    </div>
+</section><!-- End Counts Section -->
+<!-- Why Tutor Section -->
 <section id="why-us" class="why-us">
     <div class="container" data-aos="fade-up">
 
         <div class="row">
             <div class="col-lg-4 d-flex align-items-stretch">
                 <div class="content">
-                    <h3>Why Choose Tutor?</h3>
+                    <h3>Neden Özel Öğretmen?</h3>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
                         Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
                     </p>
                     <div class="text-center">
-                        <a href="about.html" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+                        <a asp-controller="PrivateTuition" asp-action="TeacherList" class="more-btn text-decoration-none">Öğretmenleri Gör<i class="bx bx-chevron-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -125,8 +153,7 @@
         </div>
 
     </div>
-</section><!-- End Why Us Section -->
-
+</section><!-- End Why Tutor Section -->
 <!-- ======= Kategories Section ======= -->
 <section id="features" class="features">
     <div class="container" data-aos="fade-up">
@@ -153,7 +180,7 @@
             <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
                 <div class="icon-box">
                     <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
-                    <h3><a class ="text-decoration-none" href="">Matematik</a></h3>
+                    <h3><a class="text-decoration-none" href="">Matematik</a></h3>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 mt-4">
@@ -183,7 +210,7 @@
             <div class="col-lg-3 col-md-4 mt-4">
                 <div class="icon-box">
                     <i class="ri-anchor-line" style="color: #b2904f;"></i>
-                    <h3><a class="text-decoration-none" href="" >Keman</a></h3>
+                    <h3><a class="text-decoration-none" href="">Keman</a></h3>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 mt-4">
@@ -208,7 +235,6 @@
 
     </div>
 </section><!-- End Features Section -->
-
 <!-- ======= Popular Showcards Section ======= -->
 <section id="popular-courses" class="courses">
     <div class="container" data-aos="fade-up">
@@ -218,19 +244,21 @@
             <p>Popülar İlanlar</p>
         </div>
 
-        <div class="row" data-aos="zoom-in" data-aos-delay="100">                            
-           <div class="row">
-               @foreach (var showCard in Model)
-               {
-                    @if (showCard.Teacher.RatingPoint >= 0 ) // scale for popularity
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row g-5">
+                @foreach (var showCard in Model)
+                {
+                    <div class="col-md-3">
+
+                    @if (showCard.Teacher.RatingPoint >= 0) // scale for popularity
                     {
                         @await Html.PartialAsync("_ShowCard", showCard)
                     }
-                  
-               }
-           </div>
-                        
+                    </div>
+
+                }
+            </div>
+
         </div>
     </div>
 </section><!-- End Popular ShowCards Section -->
-

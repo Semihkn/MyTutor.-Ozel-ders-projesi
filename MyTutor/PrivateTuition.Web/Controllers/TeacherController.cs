@@ -17,7 +17,6 @@ using PrivateTuition.Data.Migrations;
 namespace PrivateTuition.Web.Controllers
 {
     [Authorize(Roles = "Teacher")]   
-    //[ApiController]
     public class TeacherController : Controller
     {
         private readonly IShowCardService _showCardService;
