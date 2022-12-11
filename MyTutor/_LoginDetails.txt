@@ -1,0 +1,17 @@
+Role: Student
+------------------------
+Mail: student@student.com
+Password: Qwerty1@
+
+
+Role: Teacher
+------------------------
+Mail: teacherdeneme@teacher.com
+Password: Qwerty1@
+
+
+Role: Admin
+------------------------
+Mail: deneme@mail.com
+Password: Deneme1@
+

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" , shrink-to-fit=no />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" , shrink-to-fit=no />
     <title>@ViewData["Title"] - MyTutor.</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
@@ -29,7 +29,10 @@
 </head>
 <body>
     <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center">
         @await Html.PartialAsync("_Header")
+
+        </div>
     </header>
 
     <main id="main">
@@ -71,7 +74,7 @@
                         <h3>My Tutor.</h3>
                         <p>
                             Barbaros Bulvarı, No:9 Beşiktaş İstanbul<br>
-                            United States <br><br>
+                            Türkiye <br><br>
                             <strong>Phone:</strong> +90 545 123 12 34<br>
                             <strong>Email:</strong> info@mytutor.com<br>
                         </p>
@@ -80,22 +83,22 @@
                     <div class="col-lg-2 col-md-6 footer-links">
                         <h4>Useful Links</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="PrivateTuition" asp-action="List">İlanlar</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="PrivateTuition" asp-action="TeacherList">Öğretmenler</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="Home" asp-action="Index">Terms of service</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="Home" asp-action="Index">Privacy policy</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
+                        <h4>Lorem Ipsum</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem Ipsum</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem Ipsum</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem Ipsum</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem Ipsum</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem Ipsum</a></li>
                         </ul>
                     </div>
 
@@ -115,7 +118,7 @@
 
             <div class="me-md-auto text-center text-md-start">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>MyTutor</span></strong>. All Rights Reserved
+                    &copy; Copyright <strong><span>MyTutor.</span></strong>. All Rights Reserved
                 </div>
 
             </div>
@@ -148,8 +151,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        // console.log("Calisti");
 
+        // City-select
         var select = document.getElementById("pref-perpage");
 
         const uri = 'https://localhost:7094/Cities/';
@@ -184,7 +187,8 @@
             }
 
             var url = 'https://localhost:7094/Cities/GetDistrictByCityId/' + cityId;
-
+           
+            // District-select
             fetch(url)
                 .then(response => response.json())
                 .then(function (data) {
@@ -237,7 +241,7 @@
 
         CategorySelect.addEventListener('change', (event) => {
 
-            var categoryValue = event.target.value; //category id degerim
+            var categoryValue = event.target.value; //category id value
 
             getSubjects(categoryValue);
 

@@ -9,5 +9,8 @@ namespace PrivateTuition.Data.Abstract
 {
     public interface IStudentRepository : IRepository<Student>
     {
+        Task<Student> FindStudentByMailAsync(string mail);
+        Task<Student> GetStudentDetailsAsync(string url);
+
     }
 }

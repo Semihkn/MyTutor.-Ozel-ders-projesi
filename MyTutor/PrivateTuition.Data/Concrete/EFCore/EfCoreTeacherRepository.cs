@@ -85,8 +85,14 @@ namespace PrivateTuition.Data.Concrete.EFCore
         {
             return await context
               .Teachers
-              .Where(sc => sc.Mail == mail)
+              .Where(t => t.Mail == mail)
               .FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateAsync(Teacher teacher)
+        {
+            await context.AddAsync(teacher);
+            await context.SaveChangesAsync();
         }
     }
 }

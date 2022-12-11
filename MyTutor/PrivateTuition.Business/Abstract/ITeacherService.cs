@@ -25,6 +25,7 @@ namespace PrivateTuition.Business.Abstract
         Task<Teacher> GetTeacherDetailsAsync(string url);
         Task<List<Teacher>> GetTeachersByCategoryAsync(string category, int page, int pageSize);
         Task<int> GetTeachersCountByCategoryAsync(string category);
+        Task UpdateAsync(Teacher teacher);
         #endregion
 
     }

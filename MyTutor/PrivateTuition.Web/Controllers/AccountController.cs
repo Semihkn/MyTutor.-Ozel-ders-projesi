@@ -18,6 +18,7 @@ namespace PrivateTuition.Web.Controllers
         private readonly UserManager<MyIdentityUser> _userManager;
         private readonly ITeacherService _teacherService;
         private readonly IStudentService _studentService;
+        private readonly IShowCardService _showcardService;
         private readonly SignInManager<MyIdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly PrivateTuitionContext _context;
@@ -50,7 +51,8 @@ namespace PrivateTuition.Web.Controllers
                     LastName = registerModel.LastName,
                     UserName = registerModel.UserName,
                     Email = registerModel.Email,
-                    
+
+
                 };
 
                 var result = await _userManager.CreateAsync(myIdentityUser, registerModel.Password);
@@ -60,19 +62,8 @@ namespace PrivateTuition.Web.Controllers
 
                     if (registerModel.IsStudent == true)
                     {
-                       await _userManager.AddToRoleAsync(myIdentityUser, "Student");
-                        //_context.Students.Add(new Student
-                        //{
-                        //    Name = registerModel.FirstName+registerModel.LastName,
-                        //    FirstName= registerModel.FirstName,
-                        //    LastName= registerModel.LastName,
-                        //    Url = url,
-                        //    IsDeleted = false,
-                        //    Mail = registerModel.Email,
-                            
-
-                        //});
-                        Student student = new Student()                        
+                        await _userManager.AddToRoleAsync(myIdentityUser, "Student");
+                        Student student = new Student()
                         {
                             Name = registerModel.FirstName + registerModel.LastName,
                             FirstName = registerModel.FirstName,
@@ -82,43 +73,10 @@ namespace PrivateTuition.Web.Controllers
                             Mail = registerModel.Email,
                         };
                         await _studentService.CreateAsync(student);
-
-
                     }
-                    //if (registerModel.IsTeacher == true)
-                    //{
-                    //    await _userManager.AddToRoleAsync(myIdentityUser, "Teacher");
-                    //    //_context.Teachers.Add(new Teacher
-                    //    //{
-                    //    //    Name = registerModel.FirstName + registerModel.LastName,
-                    //    //    FirstName= registerModel.FirstName,
-                    //    //    LastName= registerModel.LastName,
-                    //    //    Url = url,
-                    //    //    IsDeleted = false,
-                    //    //    Mail = registerModel.Email,
-
-                    //    //});
-
-                    //    Teacher teacher = new Teacher()
-                    //    {
-                    //        Name = registerModel.FirstName + registerModel.LastName,
-                    //        FirstName = registerModel.FirstName,
-                    //        LastName = registerModel.LastName,
-                    //        Url = url,
-                    //        IsDeleted = false,
-                    //        Mail = registerModel.Email,
-                    //    };
                     else
                     {
                         await _userManager.AddToRoleAsync(myIdentityUser, "Teacher");
-                        //_context.Teachers.Add(new Teacher
-                        //{
-                        //    Name = registerModel.FirstName + registerModel.LastName,
-                        //    Url = url,
-                        //    IsDeleted = false,
-                        //    Mail = registerModel.Email,
-
-                        //});
                         Teacher teacher = new Teacher()
                         {
                             Name = registerModel.FirstName + registerModel.LastName,
@@ -134,7 +92,7 @@ namespace PrivateTuition.Web.Controllers
                     TempData["AlertMessage"] = Jobs.CreateMessage("BİLGİLENDİRME!", "Kaydınız başarıyla oluşturulmuştur.", "success");
                     return RedirectToAction("Login");
 
-                    
+
                 }
                 _context.SaveChanges();
 
@@ -143,22 +101,22 @@ namespace PrivateTuition.Web.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            
+
 
             return View(registerModel);
         }
-        public IActionResult Login(string returnUrl = null )
+        public IActionResult Login(string returnUrl = null)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return View(new LoginModel() { ReturnUrl = returnUrl });
             }
-             return Redirect("~/");
+            return Redirect("~/");
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-           
+
             if (ModelState.IsValid)
             {
                 var myIdentityUser = await _userManager.FindByEmailAsync(loginModel.Email);
@@ -184,41 +142,195 @@ namespace PrivateTuition.Web.Controllers
         }
         #endregion
 
-        public IActionResult UserProfile()
+        public async Task<IActionResult> UserProfile()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
 
-            if (!User.Identity.IsAuthenticated)
+
+            if (!User.Identity.IsAuthenticated) { return RedirectToAction("Login"); }
+
+            if (User.IsInRole("Teacher"))
             {
-                return View(new User() {
-                    UserName= user.UserName,
-                    FirstName=user.FirstName,
-                    LastName=user.LastName,
-                    PhoneNumber=user.PhoneNumber,
-                    Mail = user.Email,
+                var teacher = await _teacherService.FindTeacherByMailAsync(user.Email);
+                return View(new UserProfileModel()
+                {
+                    UserName = user.UserName,
+                    Name = user.FirstName + " " + user.LastName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    UserId = userId,
+                    SelectedRoles = await _userManager.GetRolesAsync(user),
+                    Roles = await _userManager.GetRolesAsync(user),
+                    Description = teacher.TeacherInfo,
+                    Job = teacher.Job,
+                    Gender = teacher.Gender,
+                    AvatarUrl = teacher.AvatarUrl,
+                    City = teacher.City,
+                    District = teacher.District,
+                    //ShowCards = await _showcardService.GetShowCardsByTeacherAsync(teacher.Id),
+                    //Comments= teacher.Comments,
                 });
             }
-            return View();
-        }
-        [Authorize]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePassword)
-        {
-            if (ModelState.IsValid)
+            if (User.IsInRole("Student"))
             {
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
-                if (result.Succeeded)
+                var student = await _studentService.FindStudentByMailAsync(user.Email);
+                return View(new UserProfileModel()
                 {
-                    return Redirect("~/");
+                    UserName = user.UserName,
+                    Name = user.FirstName + " " + user.LastName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    UserId = userId,
+                    SelectedRoles = await _userManager.GetRolesAsync(user),
+                    Roles = await _userManager.GetRolesAsync(user),
+                    Job = student.Job,
+                    Gender = student.Gender,
+                    AvatarUrl = student.AvatarUrl,
+                    City = student.City,
+                    District = student.District,
+                });
+            }
+            return Redirect("~/");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProfileEdit(UserProfileModel userProfile)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+            if (!User.Identity.IsAuthenticated) { return RedirectToAction("Login"); }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var teacher = await _teacherService.FindTeacherByMailAsync(user.Email);
+                    var student = await _studentService.FindStudentByMailAsync(user.Email);
+                    if (User.IsInRole("Teacher"))
+                    {
+                        teacher.UserName = userProfile.UserName;
+                        teacher.FirstName = userProfile.FirstName;
+                        teacher.LastName = userProfile.LastName;
+                        teacher.UserName = userProfile.UserName;
+                        teacher.PhoneNumber = userProfile.PhoneNumber;
+                        teacher.Mail = userProfile.Email;
+                        teacher.TeacherInfo = userProfile.Description;
+                        teacher.Job = userProfile.Job;
+                        teacher.Gender = userProfile.Gender;
+                        teacher.AvatarUrl = userProfile.AvatarUrl;
+                        teacher.City = userProfile.City;
+                        teacher.District = userProfile.District;
+                        await _teacherService.UpdateAsync(teacher);
+                        //var result = await _userManager.UpdateAsync(user);
+                        TempData["AlertMessage"] = Jobs.CreateMessage("Tebrikler!", "Kayıt başarıyla düzenlenmiştir.", "success");
+                        return RedirectToAction("UserProfile");
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        student.UserName = userProfile.UserName;
+                        student.FirstName = userProfile.FirstName;
+                        student.LastName = userProfile.LastName;
+                        student.PhoneNumber = userProfile.PhoneNumber;
+                        student.Mail = userProfile.Email;
+                        student.UserName = userProfile.UserName;
+                        student.Job = userProfile.Job;
+                        student.Gender = userProfile.Gender;
+                        student.AvatarUrl = userProfile.AvatarUrl;
+                        student.City = userProfile.City;
+                        student.District = userProfile.District;
+                        _studentService.Update(student);
+                        TempData["AlertMessage"] = Jobs.CreateMessage("Tebrikler!", "Kayıt başarıyla düzenlenmiştir.", "success");
+                        return RedirectToAction("UserProfile");
+                    }
+
                 }
             }
+           
+            TempData["AlertMessage"] = Jobs.CreateMessage("Hata!", "Kayıt düzenlenemedi.", "danger");
+
+            return View("UserProfile");
+        }
+
+        public async Task<IActionResult> AccountSettings()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+
+
+            if (!User.Identity.IsAuthenticated) { return RedirectToAction("Login"); }
+
+            if (User.IsInRole("Teacher"))
+            {
+                var teacher = await _teacherService.FindTeacherByMailAsync(user.Email);
+                return View(new UserProfileModel()
+                {
+                    UserName = user.UserName,
+                    Name = user.FirstName + " " + user.LastName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    UserId = userId,
+                    SelectedRoles = await _userManager.GetRolesAsync(user),
+                    Roles = await _userManager.GetRolesAsync(user),
+                    Description = teacher.TeacherInfo,
+                    Job = teacher.Job,
+                    Gender = teacher.Gender,
+                    AvatarUrl = teacher.AvatarUrl,
+                    City = teacher.City,
+                    District = teacher.District,
+                });
+            }
+            if (User.IsInRole("Student"))
+            {
+                var student = await _studentService.FindStudentByMailAsync(user.Email);
+                return View(new UserProfileModel()
+                {
+                    UserName = user.UserName,
+                    Name = user.FirstName + " " + user.LastName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    UserId = userId,
+                    SelectedRoles = await _userManager.GetRolesAsync(user),
+                    Roles = await _userManager.GetRolesAsync(user),
+                    Job = student.Job,
+                    Gender = student.Gender,
+                    AvatarUrl = student.AvatarUrl,
+                    City = student.City,
+                    District = student.District,
+                });
+            }
+            return Redirect("~/");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(string name)
+        {
+            var user = await _userManager.FindByIdAsync(User.Identity.Name);
+            UserProfileModel changePasswordModel = new UserProfileModel() { UserId = user.Id };
+            return View(changePasswordModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(UserProfileModel changePassword)
+        {
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["AlertMessage"] = Jobs.CreateMessage("Başarılı!", "Tebrikler, şifre değişti", "success");
+                return RedirectToAction("UserProfile");
+            }
+
+            TempData["AlertMessage"] = Jobs.CreateMessage("Hata!", "Yanlış şifre girdiniz!", "danger");
             return View(changePassword);
         }
 

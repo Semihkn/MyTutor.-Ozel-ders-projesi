@@ -14,6 +14,7 @@ namespace PrivateTuition.Data.Abstract
         Task<List<Teacher>> GetTeachersByCategoryAsync(string category, int page, int pageSize);
         Task<int> GetTeachersCountByCategoryAsync(string category);
         Task<Teacher> FindTeacherByMailAsync(string mail);
+        Task UpdateAsync(Teacher teacher);
 
     }
 }

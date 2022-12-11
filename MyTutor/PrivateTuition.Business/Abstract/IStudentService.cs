@@ -15,5 +15,8 @@ namespace PrivateTuition.Business.Abstract
         Task<List<Student>> GetAllAsync(Expression<Func<Student, bool>> expression);
         void Update(Student student);
         void Delete(Student student);
+
+        Task<Student> FindStudentByMailAsync(string mail);
+        Task<Student> GetStudentDetailsAsync(string url);
     }
 }

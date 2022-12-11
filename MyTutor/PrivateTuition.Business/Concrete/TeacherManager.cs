@@ -72,5 +72,10 @@ namespace PrivateTuition.Business.Concrete
         {
             return await _teacherRepository.FindTeacherByMailAsync(mail);
         }
+
+        public async Task UpdateAsync(Teacher teacher)
+        {
+            await _teacherRepository.UpdateAsync(teacher);
+        }
     }
 }

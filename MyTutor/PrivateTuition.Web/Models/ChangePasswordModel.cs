@@ -12,11 +12,11 @@ namespace PrivateTuition.Web.Models
         [Display(Name = "New Password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Bu alan zorunlu.")]
+        [Compare("NewPassword", ErrorMessage = "Şifreler uyuşmuyor!")]
         public string NewPassword { get; set; }
-        [Display(Name = "New Repassword")]
+        [Display(Name = "ReNew Repassword")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Bu alan zorunlu.")]
-        [Compare("Password", ErrorMessage = "Şifreler uyuşmuyor!")]
         public string ReNewPassword { get; set; }
     }
 }

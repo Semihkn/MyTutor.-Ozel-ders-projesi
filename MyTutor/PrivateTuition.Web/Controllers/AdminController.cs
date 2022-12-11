@@ -20,7 +20,10 @@ namespace PrivateTuition.Web.Controllers
         private readonly SignInManager<MyIdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(ICategoryService categoryService, ISubjectService subjectService, UserManager<MyIdentityUser> userManager, SignInManager<MyIdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(
+            ICategoryService categoryService, ISubjectService subjectService,
+            UserManager<MyIdentityUser> userManager, SignInManager<MyIdentityUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _categoryService = categoryService;
             _subjectService = subjectService;
@@ -349,7 +352,7 @@ namespace PrivateTuition.Web.Controllers
                 {
                     Name = subjectModel.Name,                   
                     Url = url,           
-                    IsDeleted=subjectModel.IsActive
+                    IsDeleted=!subjectModel.IsActive
                 };
                 await _subjectService.CreateAsync(subject, categoryIds);
                 return RedirectToAction("SubjectList");

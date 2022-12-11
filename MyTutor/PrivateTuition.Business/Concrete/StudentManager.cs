@@ -29,6 +29,11 @@ namespace PrivateTuition.Business.Concrete
             _studentRepository.Delete(student);
         }
 
+        public async Task<Student> FindStudentByMailAsync(string mail)
+        {
+            return await _studentRepository.FindStudentByMailAsync(mail);
+        }
+
         public async Task<List<Student>> GetAllAsync(Expression<Func<Student, bool>> expression)
         {
             return await _studentRepository.GetAllAsync(expression);
@@ -37,6 +42,11 @@ namespace PrivateTuition.Business.Concrete
         public async Task<Student> GetByIdAsync(int id)
         {
             return await _studentRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Student> GetStudentDetailsAsync(string url)
+        {
+           return await _studentRepository.GetStudentDetailsAsync(url);
         }
 
         public void Update(Student student)
