@@ -241,10 +241,8 @@ namespace PrivateTuition.Web.Controllers
                 return NotFound();
             }
             _showCardService.Delete(showCard);
-            return Redirect("/Admin/ShowCardList?isDeleted=true");
+            return Redirect("/Teacher/ShowCardList?isDeleted=true");
         }
-
-    }
     #endregion
-
+    }
 }

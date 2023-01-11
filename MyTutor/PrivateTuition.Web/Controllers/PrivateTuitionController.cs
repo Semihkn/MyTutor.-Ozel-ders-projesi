@@ -100,34 +100,6 @@ namespace PrivateTuition.Web.Controllers
 
         public async Task<IActionResult> Details(string url)
         {
-            //if (string.IsNullOrEmpty(url))
-            //{
-            //    return NotFound();
-            //}
-
-            //var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //if (userId == null)
-            //{
-            //    return NotFound();
-
-            //}
-            //var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
-
-            //var student = _context.Students.FirstOrDefault(q => q.Mail == user.Email);
-            //ShowCard showCard = await _showCardService.GetShowCardDetailsAsync(url);
-
-            //ShowCardDetailModel showCardDetailModel = new ShowCardDetailModel()
-            //{
-            //    ShowCard = showCard,
-            //    Category = showCard
-            //        .Subject.SubjectCategories
-            //        .Select(sc => sc.Category)
-            //        .FirstOrDefault()
-
-            //};
-            //ViewBag.Student = student.Id;
-            //return View(showCardDetailModel);
-
             if (string.IsNullOrEmpty(url))
             {
                 return NotFound();
